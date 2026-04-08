@@ -1,0 +1,246 @@
+/* ── CARD WRAPPER ─────────────────────────────────── */
+.card {
+  width: 230px; height: 440px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  position: absolute;
+  top: 50%; left: 50%;
+  margin-top: -220px; margin-left: -115px;
+  transition: transform 0.65s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.65s ease, filter 0.65s ease;
+}
+
+/* Sombra flotante */
+.shadow {
+  position: absolute; bottom: -18px; left: 50%;
+  transform: translateX(-50%);
+  width: 60%; height: 20px;
+  background: radial-gradient(ellipse, rgba(30,20,10,0.5) 0%, transparent 70%);
+  border-radius: 50%; filter: blur(8px); z-index: -1;
+  animation: shadowFloat 3.5s ease-in-out infinite;
+}
+@keyframes shadowFloat {
+  0%,100% { width: 60%; opacity: 0.5; bottom: -18px; filter: blur(8px); }
+  50%      { width: 38%; opacity: 0.16; bottom: -30px; filter: blur(12px); }
+}
+
+/* ── FLIP INNER ───────────────────────────────────── */
+.inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform;
+}
+.flipped .inner { transform: rotateY(180deg); }
+.flipped { animation: none !important; }
+
+/* ── FRENTE Y REVERSO BASE ────────────────────────── */
+.front, .back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════
+   MARCO IPHONE DORADO
+   - Marco delgado ~8px con gradiente metálico
+   - Esquinas redondeadas 28px
+   - Notch rectangular pequeño centrado arriba
+   - Botones laterales izquierda (mute + volumen x2)
+   - Botón power derecha
+   ══════════════════════════════════════════════════ */
+
+.front {
+  border-radius: 28px;
+  /* Marco dorado metálico delgado */
+  box-shadow:
+    /* capa 1 — borde dorado principal */
+    0 0 0 7px #c8a84b,
+    /* capa 2 — highlight brillante */
+    0 0 0 8px #f0d060,
+    /* capa 3 — borde oscuro exterior */
+    0 0 0 9.5px #9a7020,
+    /* sombra exterior suave */
+    0 16px 48px rgba(100,65,0,0.3),
+    /* brillo lateral izquierdo */
+    -3px 0 10px rgba(240,200,60,0.25),
+    /* inset pantalla */
+    inset 0 0 0 1px rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.42);
+  backdrop-filter: blur(20px);
+  display: flex; flex-direction: column;
+}
+
+/* Notch rectangular pequeño */
+.front::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 70px; height: 18px;
+  background: linear-gradient(to bottom, #c8a84b, #e8c84a);
+  border-radius: 0 0 10px 10px;
+  z-index: 20;
+  box-shadow: inset 0 -1px 3px rgba(255,220,60,0.4);
+}
+
+/* Botón power — lado derecho */
+.front::after {
+  content: '';
+  position: absolute;
+  right: -12px; top: 28%;
+  width: 3.5px; height: 55px;
+  background: linear-gradient(to bottom,
+    #f0d060 0%, #c8a84b 30%, #9a7020 50%, #c8a84b 70%, #f0d060 100%);
+  border-radius: 0 3px 3px 0;
+  z-index: 20;
+}
+
+/* ── REVERSO ──────────────────────────────────────── */
+.back {
+  border-radius: 28px;
+  box-shadow:
+    0 0 0 7px #c8a84b,
+    0 0 0 8px #f0d060,
+    0 0 0 9.5px #9a7020,
+    0 16px 48px rgba(100,65,0,0.3),
+    inset 0 0 0 1px rgba(255,255,255,0.6);
+  background: rgba(247,243,238,0.95);
+  backdrop-filter: blur(20px);
+  transform: rotateY(180deg);
+  display: flex; flex-direction: column;
+  padding: 1.6rem 1.3rem; gap: 0.8rem; justify-content: center;
+}
+
+.back::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 70px; height: 18px;
+  background: linear-gradient(to bottom, #c8a84b, #e8c84a);
+  border-radius: 0 0 10px 10px;
+  z-index: 20;
+}
+
+/* ── BOTONES LATERALES IZQUIERDOS ─────────────────── */
+/* Mute */
+.btnMute {
+  position: absolute;
+  left: -12px; top: 18%;
+  width: 3.5px; height: 24px;
+  background: linear-gradient(to bottom,
+    #f0d060 0%, #c8a84b 40%, #9a7020 60%, #c8a84b 80%, #f0d060 100%);
+  border-radius: 3px 0 0 3px;
+  z-index: 20;
+}
+/* Volumen + */
+.btnVolUp {
+  position: absolute;
+  left: -12px; top: 30%;
+  width: 3.5px; height: 42px;
+  background: linear-gradient(to bottom,
+    #f0d060 0%, #c8a84b 40%, #9a7020 60%, #c8a84b 80%, #f0d060 100%);
+  border-radius: 3px 0 0 3px;
+  z-index: 20;
+}
+/* Volumen - */
+.btnVolDown {
+  position: absolute;
+  left: -12px; top: 46%;
+  width: 3.5px; height: 42px;
+  background: linear-gradient(to bottom,
+    #f0d060 0%, #c8a84b 40%, #9a7020 60%, #c8a84b 80%, #f0d060 100%);
+  border-radius: 3px 0 0 3px;
+  z-index: 20;
+}
+
+/* ── CONTENIDO FRENTE ─────────────────────────────── */
+.imgWrap { flex: 1; overflow: hidden; margin-top: 18px; }
+
+.placeholder {
+  width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  display: flex; align-items: flex-end; padding: 1rem;
+}
+
+/* Orbs por color */
+.color1 { background: linear-gradient(145deg,#f7f0e4,#ede0c8); }
+.color1::before { content:''; position:absolute; top:-15%; right:-5%; width:200px; height:200px; background:radial-gradient(circle,rgba(201,169,110,0.55) 0%,transparent 70%); border-radius:50%; }
+.color1::after  { content:''; position:absolute; bottom:8%; left:5%; width:140px; height:140px; background:radial-gradient(circle,rgba(220,190,140,0.38) 0%,transparent 70%); border-radius:50%; }
+
+.color2 { background: linear-gradient(145deg,#f2edf8,#e8dff5); }
+.color2::before { content:''; position:absolute; top:-10%; left:20%; width:190px; height:190px; background:radial-gradient(circle,rgba(180,155,215,0.5) 0%,transparent 70%); border-radius:50%; }
+.color2::after  { content:''; position:absolute; bottom:5%; right:8%; width:120px; height:120px; background:radial-gradient(circle,rgba(201,169,110,0.32) 0%,transparent 70%); border-radius:50%; }
+
+.color3 { background: linear-gradient(145deg,#eef5f0,#dff0e8); }
+.color3::before { content:''; position:absolute; top:5%; right:5%; width:170px; height:170px; background:radial-gradient(circle,rgba(130,190,155,0.45) 0%,transparent 70%); border-radius:50%; }
+.color3::after  { content:''; position:absolute; bottom:-8%; left:15%; width:150px; height:150px; background:radial-gradient(circle,rgba(201,169,110,0.28) 0%,transparent 70%); border-radius:50%; }
+
+.waveLines {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 220'%3E%3Cpath d='M-20 180 Q60 120 130 150 T280 100' fill='none' stroke='rgba(201,169,110,0.4)' stroke-width='1.5'/%3E%3Cpath d='M-20 160 Q70 100 140 130 T280 80' fill='none' stroke='rgba(201,169,110,0.28)' stroke-width='1'/%3E%3Cpath d='M-20 200 Q50 140 120 170 T280 120' fill='none' stroke='rgba(201,169,110,0.22)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: cover; pointer-events: none;
+}
+
+.cardName {
+  position: relative; z-index: 2;
+  font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(4px);
+  padding: 0.28rem 0.65rem; border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.8);
+}
+
+.frontBody {
+  padding: 0.9rem 1.1rem 1rem;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; gap: 0.4rem;
+  border-top: 1px solid rgba(201,169,110,0.2);
+}
+.title { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--ink); }
+.hint  { font-size: 0.65rem; color: var(--accent); letter-spacing: 0.05em; }
+
+/* ── CONTENIDO REVERSO ────────────────────────────── */
+.backTitle { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--ink); margin-top: 0.5rem; }
+.backDesc  { font-size: 0.76rem; line-height: 1.75; color: var(--muted); }
+.backLinks { display: flex; gap: 1rem; margin-top: 0.4rem; }
+
+/* Tags compartidos */
+.tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tag {
+  font-size: 0.65rem; font-weight: 500;
+  padding: 0.2rem 0.65rem; border-radius: 2px;
+  background: rgba(201,169,110,0.14); color: #8a6a30;
+  border: 1px solid rgba(201,169,110,0.3);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+/* Links */
+.link {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.72rem; font-weight: 500;
+  color: var(--accent); text-decoration: none;
+  transition: opacity var(--ease);
+}
+.link:hover { opacity: 0.65; }
+.link svg { width: 14px; height: 14px; }
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .card {
+    width: 175px; height: 340px;
+    margin-top: -170px; margin-left: -87px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 155px; height: 300px;
+    margin-top: -150px; margin-left: -77px;
+  }
+  .front, .back { border-radius: 22px; }
+  .front::before, .back::before { width: 55px; height: 15px; }
+  .backDesc { font-size: 0.7rem; line-height: 1.6; }
+}

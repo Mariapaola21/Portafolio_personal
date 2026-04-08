@@ -1,0 +1,296 @@
+/* ── SECCIÓN ──────────────────────────────────────── */
+.tech {
+  padding: 6rem 2rem 8rem;
+  background: var(--beige);
+  overflow: hidden;
+}
+
+.skillsTitle {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  text-align: center;
+  color: var(--ink);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.3rem;
+}
+
+.hint {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 3.5rem;
+}
+
+/* ── ESCENA 3D ────────────────────────────────────── */
+.scene {
+  display: flex;
+  justify-content: center;
+  perspective: 1100px;
+  perspective-origin: 50% 30%;
+}
+
+/* ── BASE DEL TECLADO ─────────────────────────────── */
+.keyboard {
+  display: grid;
+  grid-template-columns: repeat(6, 82px);
+  grid-auto-rows: 82px;
+  gap: 0.5rem;
+
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  will-change: transform;
+
+  background: #f2ebd9;
+  border-radius: 22px;
+  padding: 1.8rem 2rem 2.4rem;
+  border: 1px solid #ffffff;
+}
+
+/* ── ESTADOS DE ROTACIÓN DEL TECLADO ── */
+
+/* pos0: Diagonal Izquierda (\) */
+.pos0 {
+  transform: rotateX(40deg) rotateY(5deg) rotateZ(-35deg);
+  box-shadow:
+    inset -3px 3px 10px rgba(255,255,255,0.7),
+    inset 3px -3px 10px rgba(0,0,0,0.04),
+    -12px 25px 0 #d0c3ab,
+    -15px 35px 30px rgba(0,0,0,0.15),
+    -20px 40px 60px rgba(0,0,0,0.1);
+}
+
+/* pos1: Centro */
+.pos1 {
+  transform: rotateX(30deg) rotateY(0deg) rotateZ(0deg);
+  box-shadow:
+    inset 0 3px 10px rgba(255,255,255,0.7),
+    inset 0 -3px 10px rgba(0,0,0,0.04),
+    0 25px 0 #d0c3ab, 
+    0 35px 30px rgba(0,0,0,0.15),
+    0 40px 60px rgba(0,0,0,0.1);
+}
+
+/* pos2: Diagonal Derecha (/) */
+.pos2 {
+  transform: rotateX(40deg) rotateY(-5deg) rotateZ(35deg);
+  box-shadow:
+    inset 3px 3px 10px rgba(255,255,255,0.7),
+    inset -3px -3px 10px rgba(0,0,0,0.04),
+    12px 25px 0 #d0c3ab, 
+    15px 35px 30px rgba(0,0,0,0.15),
+    20px 40px 60px rgba(0,0,0,0.1);
+}
+
+/* ── TECLA BASE ───────────────────────────────────── */
+.key {
+  /* Al estar en Grid, las teclas toman el ancho/alto de su celda (82x82) */
+  width: 100%; height: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease;
+}
+
+/* Cara lateral inferior (oculta, ya no se requiere gracias a los bordes de la keyCap) */
+.key::before { display: none; }
+
+/* Hover — press */
+.key:hover { transform: translateY(4px) translateX(2px); }
+.key:hover .keyCap {
+  /* Se achata uniformemente en los lados gruesos al presionar */
+  border-width: 3px 10px 14px 10px; 
+  box-shadow: 
+    inset 0 1px 3px rgba(255,255,255,0.9),
+    inset 0 -1px 2px rgba(0,0,0,0.1),
+    0 4px 6px rgba(0,0,0,0.3); /* la sombra proyectada se encoje */
+}
+
+/* ── KEYCAP ───────────────────────────────────────── */
+.keyCap {
+  position: absolute; inset: 0;
+  border-radius: 8px; /* Más cuadrado/puntiagudo (sharp corners) */
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding: 0.15rem 0.5rem 0;
+  
+  /* Borde grueso enfatizado en Izquierda, Derecha y Abajo */
+  border-style: solid;
+  border-width: 4px 14px 20px 14px; /* Arriba: 4, Derecha: 14, Abajo: 20, Izquierda: 14 */
+  border-color: 
+    rgba(255, 255, 255, 0.75)   /* Cara superior (Iluminada) */
+    rgba(0, 0, 0, 0.15)         /* Cara derecha (Sombra media) */
+    rgba(0, 0, 0, 0.45)         /* Cara inferior (Sombra fuerte hacia abajo) */
+    rgba(255, 255, 255, 0.25);  /* Cara izquierda (Media luz) */
+
+  /* El inner shadow levanta el borde interno dando sensación de tecla real */
+  box-shadow:
+    inset 0 1px 3px rgba(255,255,255,0.9),
+    inset 0 -1px 2px rgba(0,0,0,0.1),
+    0 10px 15px rgba(0,0,0,0.3);
+  
+  transition: all 0.1s ease;
+  overflow: hidden;
+}
+
+.keyCap i {
+  font-size: 1.6rem; line-height: 1; /* ícono un poco más pequeño para caber mejor */
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+  margin-bottom: auto;
+}
+
+/* Nombre en esquina inferior derecha, rotado como en la foto */
+.keyName {
+  font-size: 0.52rem; font-weight: 800;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  text-align: right;
+  align-self: flex-end;
+  line-height: 1;
+  /* Subimos el texto con translate para que no choque con el borde inferior gigante */
+  transform: rotate(-8deg) translate(-2px, -6px);
+}
+
+.keyCat { display: none; }
+
+/* ── TECLA GRANDE ─────────────────────────────────── */
+.keyBig {
+  grid-column: span 2;
+  grid-row: span 2;
+  border-radius: 14px;
+}
+.keyBig .keyCap {
+  border-radius: 14px;
+  justify-content: flex-end;
+  padding: 1.2rem;
+  align-items: flex-start;
+}
+.keyQuote {
+  font-family: var(--serif);
+  font-size: 0.9rem; font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+}
+
+/* ── COLORES (Cristal Beige Universal) ────────────── */
+/* Eliminamos los colores individuales (azul, rojo, etc.) para darle a todas las
+   teclas un estilo uniforme de resina/cristal beige. Los logos conservan su color. */
+
+.key .keyCap {
+  background: linear-gradient(135deg, rgba(255, 252, 245, 0.9), rgba(235, 225, 210, 0.5));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.key::before {
+  /* Profundidad sólida en beige para que parezca un teclado de base clara */
+  background: #cfc2ac; 
+}
+
+/* Ajustes de texto para contrastar sobre el fondo claro/beige */
+.key .keyName {
+  color: #4a4036;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+}
+
+.keyBig .keyQuote {
+  color: #3b332b;
+  text-shadow: none;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 900px) {
+  .keyboard {
+    grid-template-columns: repeat(6, 66px);
+    grid-auto-rows: 66px;
+    padding: 1.2rem 1.4rem 1.6rem;
+  }
+  .keyCap i { font-size: 1.3rem; }
+}
+
+@media (max-width: 600px) {
+  .tech { padding: 4rem 1rem 6rem; }
+  .scene { perspective: 700px; }
+  .keyboard {
+    grid-template-columns: repeat(6, 48px);
+    grid-auto-rows: 48px;
+    gap: 0.3rem;
+    padding: 1rem 1.2rem 1.4rem;
+    border-radius: 16px;
+  }
+  .keyCap i { font-size: 1rem; }
+  .keyName { font-size: 0.42rem; }
+  .keyBig .keyCap { padding: 0.7rem; }
+  .keyQuote { font-size: 0.72rem; }
+}
+
+@media (max-width: 420px) {
+  .keyboard {
+    grid-template-columns: repeat(6, 40px);
+    grid-auto-rows: 40px;
+    gap: 0.25rem;
+    padding: 0.8rem 1rem 1.2rem;
+  }
+  .keyCap i { font-size: 0.85rem; }
+  .keyName { display: none; }
+}
+
+/* ── COLORES DE TECLAS ────────────────────────────── */
+.keyWhite .keyCap {
+  background: linear-gradient(160deg,#f8f4ee,#ddd5c8);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.25), inset 0 3px 0 rgba(255,255,255,0.9);
+}
+.keyWhite .keyName { color: #2a2218; text-shadow: none; }
+
+.keyBlue .keyCap {
+  background: linear-gradient(160deg,#60b0e8,#3880c8);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyRed .keyCap {
+  background: linear-gradient(160deg,#e86060,#c83030);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyYellow .keyCap {
+  background: linear-gradient(160deg,#f0d050,#c89820);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyGreen .keyCap {
+  background: linear-gradient(160deg,#60c880,#389858);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyTeal .keyCap {
+  background: linear-gradient(160deg,#40c8b8,#209890);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyPurple .keyCap {
+  background: linear-gradient(160deg,#9878e0,#6848c0);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyOrange .keyCap {
+  background: linear-gradient(160deg,#f09050,#d06020);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}
+
+.keyDark .keyCap {
+  background: linear-gradient(160deg,#3a3028,#201808);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.5), inset 0 3px 0 rgba(255,255,255,0.12);
+}
+
+/* Livewire / Rosa */
+.keyPink .keyCap {
+  background: linear-gradient(160deg,#e870a0,#c84878);
+  box-shadow: -8px 12px 20px rgba(0,0,0,0.35), inset 0 3px 0 rgba(255,255,255,0.5);
+}

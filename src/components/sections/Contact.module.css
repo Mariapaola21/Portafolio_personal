@@ -1,0 +1,63 @@
+.contact {
+  background: var(--beige);
+  padding: 7rem 5rem;
+}
+.lightTitle { color: var(--ink); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 860px; margin: 0 auto;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--r);
+  padding: 1.6rem;
+  display: flex; flex-direction: column; gap: 0.4rem;
+  text-decoration: none; color: var(--ink);
+  transition: all var(--ease);
+}
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 28px rgba(184,149,106,0.15);
+  transform: translateY(-3px);
+}
+
+/* Tamaños bento */
+.lg   { grid-column: span 2; }
+.wide {
+  grid-column: span 2;
+  flex-direction: row; align-items: center; gap: 1.2rem;
+}
+
+.icon { width: 28px; height: 28px; color: var(--accent); flex-shrink: 0; }
+.icon svg { width:100%; height:100%; }
+
+.name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+.sub  { font-size: 0.7rem; color: var(--muted); }
+.text { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+
+.action {
+  flex-shrink: 0;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--accent); border-radius: 2px;
+  font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); transition: all var(--ease);
+}
+.card:hover .action { background: var(--accent); color: var(--white); }
+
+@media (max-width: 1024px) { .contact { padding: 5rem 2.5rem; } }
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .lg, .wide { grid-column: span 2; }
+}
+@media (max-width: 480px) {
+  .contact { padding: 4rem 1.5rem; }
+  .grid { grid-template-columns: 1fr; }
+  .lg, .wide { grid-column: span 1; }
+  .wide { flex-direction: column; align-items: flex-start; }
+}

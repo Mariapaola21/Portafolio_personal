@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maria Paola Anaya Correa | Desarrolladora Full-Stack</title>
+    <meta name="description" content="Portafolio de Maria Paola Anaya Correa — Desarrolladora Full-Stack especializada en React, Next.js, Python y Azure." />
+
+    <!-- Open Graph / redes sociales -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://mariapaola21.github.io/Portafolio_personal/" />
+    <meta property="og:title"       content="Maria Paola Anaya Correa | Desarrolladora Full-Stack" />
+    <meta property="og:description" content="Portafolio de Maria Paola Anaya Correa — Desarrolladora Full-Stack especializada en React, Next.js, Python y Azure." />
+    <meta property="og:image"       content="/foto.jpg" />
+    <meta name="twitter:card"       content="summary_large_image" />
+    <meta name="twitter:title"      content="Maria Paola Anaya Correa | Desarrolladora Full-Stack" />
+    <meta name="twitter:description" content="Portafolio Full-Stack · React · Next.js · Python · Azure" />
+    <meta name="twitter:image"      content="/foto.jpg" />
+
+    <!-- PWA / mobile -->
+    <meta name="theme-color" content="#FAF8F5" />
+
+    <!-- Preconnect a orígenes externos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+    <!-- Fuentes con display=swap para no bloquear render -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Devicons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+    <!-- Preload assets críticos -->
+    <link rel="preload" href="/foto.jpg"       as="image" fetchpriority="high" />
+    <link rel="preload" href="/fondotecl.png"  as="image" fetchpriority="high" />
+    <link rel="preload" href="/bg-waves.jpg"   as="image" fetchpriority="low" />
+    <link rel="preload" href="/VIDE.mp4"       as="video" type="video/mp4" fetchpriority="low" />
+
+    <!-- Splash screen inline para que aparezca antes de que React hidrate -->
+    <style>
+      #splash {
+        position: fixed; inset: 0; z-index: 9999;
+        background: #FAF8F5;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 1.5rem;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      #splash.hidden { opacity: 0; visibility: hidden; }
+      #splash-logo {
+        font-family: Georgia, serif;
+        font-size: 1.1rem; font-weight: 700;
+        letter-spacing: 0.18em; text-transform: uppercase;
+        color: #1A1A1A;
+      }
+      #splash-bar-wrap {
+        width: 160px; height: 1px;
+        background: #E5DDD3; overflow: hidden;
+      }
+      #splash-bar {
+        height: 100%; width: 0%;
+        background: #B8956A;
+        transition: width 0.3s ease;
+      }
+      #splash-pct {
+        font-family: Georgia, serif;
+        font-size: 0.65rem; letter-spacing: 0.2em;
+        color: #8A8278;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash visible antes de React -->
+    <div id="splash">
+      <div id="splash-logo">Maria Paola Anaya</div>
+      <div id="splash-bar-wrap"><div id="splash-bar"></div></div>
+      <div id="splash-pct">0%</div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Preload progress script -->
+    <script>
+      (function () {
+        const bar = document.getElementById('splash-bar')
+        const pct = document.getElementById('splash-pct')
+        const splash = document.getElementById('splash')
+
+        const assets = ['/foto.jpg', '/fondotecl.png', '/bg-waves.jpg']
+        let loaded = 0
+
+        function setProgress(p) {
+          const v = Math.round(p)
+          bar.style.width = v + '%'
+          pct.textContent = v + '%'
+        }
+
+        function tryHide() {
+          loaded++
+          setProgress((loaded / assets.length) * 85)
+          if (loaded >= assets.length) {
+            setProgress(100)
+            setTimeout(() => splash.classList.add('hidden'), 400)
+          }
+        }
+
+        assets.forEach(src => {
+          const img = new Image()
+          img.onload = img.onerror = tryHide
+          img.src = src
+        })
+
+        // Fallback: ocultar tras 4s máximo
+        setTimeout(() => {
+          setProgress(100)
+          splash.classList.add('hidden')
+        }, 4000)
+
+        // Exponer para que React lo llame cuando esté listo
+        window.__hideSplash = () => {
+          setProgress(100)
+          setTimeout(() => splash.classList.add('hidden'), 200)
+        }
+      })()
+    </script>
+  </body>
+</html>

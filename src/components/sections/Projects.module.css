@@ -1,0 +1,152 @@
+.projects {
+  padding: 7rem 0;
+  /* Fades into var(--off) on top to blend with Hero, and var(--beige) on bottom to blend with Tech */
+  background: 
+    linear-gradient(to bottom, var(--off) 0%, transparent 150px, transparent calc(100% - 150px), var(--beige) 100%),
+    url('/bg-waves.jpg') center center / cover no-repeat;
+  overflow: visible;
+  position: relative;
+}
+.projects::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(250,248,245,0.18);
+  pointer-events: none; z-index: 0;
+}
+
+:global(.section-label),
+:global(.section-title) {
+  position: relative; z-index: 1;
+}
+
+.titleWrap {
+  padding-top: 2.5rem;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+
+.carouselWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem 0;
+  z-index: 1;
+  overflow: visible;
+}
+
+.track {
+  flex: 1;
+  height: 580px;
+  position: relative;
+  perspective: 1400px;
+  perspective-origin: center center;
+  overflow: visible;
+}
+
+.btn {
+  flex-shrink: 0;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,169,110,0.4);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(8px);
+  color: var(--ink);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--ease);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  z-index: 10; position: relative;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Dots */
+.dots {
+  display: flex; justify-content: center; gap: 0.5rem;
+  margin-top: 1.5rem; position: relative; z-index: 1;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--sand); border: none; cursor: pointer;
+  transition: all var(--ease); padding: 0;
+}
+.dotActive { background: var(--accent); transform: scale(1.35); }
+
+/* Posiciones de las cards */
+.active {
+  transform: translateX(0) translateY(-14px) translateZ(60px) scale(1.06);
+  opacity: 1; z-index: 5; filter: none;
+  animation: floatCard 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+.left1 {
+  transform: translateX(-300px) translateY(0) translateZ(-20px) rotateY(14deg) scale(0.88);
+  opacity: 0.72; z-index: 3; filter: blur(1px);
+  animation: floatLeft1 3.8s ease-in-out infinite 0.4s;
+  will-change: transform;
+}
+.right1 {
+  transform: translateX(300px) translateY(0) translateZ(-20px) rotateY(-14deg) scale(0.88);
+  opacity: 0.72; z-index: 3; filter: blur(1px);
+  animation: floatRight1 3.8s ease-in-out infinite 0.8s;
+  will-change: transform;
+}
+.left2 {
+  transform: translateX(-560px) translateZ(-60px) rotateY(26deg) scale(0.72);
+  opacity: 0.3; z-index: 1; filter: blur(3px);
+}
+.right2 {
+  transform: translateX(560px) translateZ(-60px) rotateY(-26deg) scale(0.72);
+  opacity: 0.3; z-index: 1; filter: blur(3px);
+}
+
+@keyframes floatCard {
+  0%,100% { transform: translateX(0) translateY(0px) translateZ(60px) scale(1.06); }
+  50%      { transform: translateX(0) translateY(-14px) translateZ(60px) scale(1.06); }
+}
+@keyframes floatLeft1 {
+  0%,100% { transform: translateX(-300px) translateY(0px) translateZ(-20px) rotateY(14deg) scale(0.88); }
+  50%     { transform: translateX(-300px) translateY(-10px) translateZ(-20px) rotateY(14deg) scale(0.88); }
+}
+@keyframes floatRight1 {
+  0%,100% { transform: translateX(300px) translateY(0px) translateZ(-20px) rotateY(-14deg) scale(0.88); }
+  50%     { transform: translateX(300px) translateY(-10px) translateZ(-20px) rotateY(-14deg) scale(0.88); }
+}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .projects { padding: 5rem 0; }
+
+  .track { height: 440px; }
+
+  .left1 {
+    transform: translateX(-160px) translateY(0) translateZ(-20px) rotateY(10deg) scale(0.82);
+    opacity: 0.5; filter: blur(2px);
+    animation: none;
+  }
+  .right1 {
+    transform: translateX(160px) translateY(0) translateZ(-20px) rotateY(-10deg) scale(0.82);
+    opacity: 0.5; filter: blur(2px);
+    animation: none;
+  }
+  .left2, .right2 { opacity: 0; pointer-events: none; }
+
+  .btn { width: 40px; height: 40px; font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .track { height: 400px; }
+
+  .left1, .right1 { opacity: 0; pointer-events: none; }
+  .left2, .right2 { opacity: 0; pointer-events: none; }
+
+  .carouselWrapper { gap: 0; padding: 0.5rem 1rem; }
+  .btn { display: none; }
+
+  /* Swipe hint via dots */
+  .dots { margin-top: 1rem; }
+}

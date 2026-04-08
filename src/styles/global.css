@@ -1,0 +1,50 @@
+/* ============================================================
+   global.css — Variables CSS y estilos base
+   Paleta: Blanco · Beige · Warm Gold
+============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:       #FFFFFF;
+  --off:         #FAF8F5;
+  --beige:       #F0EBE3;
+  --sand:        #E5DDD3;
+  --ink:         #1A1A1A;
+  --muted:       #8A8278;
+  --accent:      #B8956A;
+  --accent-lt:   rgba(184,149,106,0.12);
+  --accent-glow: rgba(184,149,106,0.25);
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --r:    12px;
+  --ease: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--off);
+  color: var(--ink);
+  overflow-x: hidden;
+  /* Suaviza el rendering de texto */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Clases utilitarias compartidas entre secciones */
+.section-label {
+  font-size: 0.65rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--accent);
+  text-align: center; margin-bottom: 0.5rem;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 700; text-align: center;
+  color: var(--ink); margin-bottom: 3.5rem;
+}
